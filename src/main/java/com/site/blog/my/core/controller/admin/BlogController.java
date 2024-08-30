@@ -218,9 +218,6 @@ public class BlogController {
             // 将上传的文件保存到目标位置
             file.transferTo(destinationFile);
 
-            // 设置响应编码格式为 UTF-8
-//            request.setCharacterEncoding("utf-8");
-
             // 设置响应头的内容类型为 HTML
             response.setHeader("Content-Type", "text/html");
 

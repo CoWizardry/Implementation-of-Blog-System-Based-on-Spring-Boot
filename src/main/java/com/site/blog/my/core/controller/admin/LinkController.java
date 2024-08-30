@@ -62,8 +62,12 @@ public class LinkController {
         link.setLinkName(linkName);
         link.setLinkUrl(linkUrl);
         link.setLinkDescription(linkDescription);
-
-        return ResultGenerator.genSuccessResult(linkService.saveLink(link));
+        Boolean saveResult = linkService.saveLink(link);
+        if (saveResult) {
+            return ResultGenerator.genSuccessResult();
+        } else {
+            return ResultGenerator.genFailResult("保存失败");
+        }
     }
 
 
@@ -107,8 +111,12 @@ public class LinkController {
         tempLink.setLinkName(linkName);
         tempLink.setLinkUrl(linkUrl);
         tempLink.setLinkDescription(linkDescription);
-
-        return ResultGenerator.genSuccessResult(linkService.updateLink(tempLink));
+        Boolean saveResult = linkService.updateLink(tempLink);
+        if (saveResult) {
+            return ResultGenerator.genSuccessResult();
+        } else {
+            return ResultGenerator.genFailResult("更新失败");
+        }
     }
 
 

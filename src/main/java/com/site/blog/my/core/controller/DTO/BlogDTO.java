@@ -21,6 +21,8 @@ public class BlogDTO implements Serializable {
 
     private String blogCategoryName;
 
+    private String blogSnippet;
+
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createTime;
 
@@ -86,5 +88,13 @@ public class BlogDTO implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getBlogSnippet() {
+        return blogSnippet;
+    }
+
+    public void setBlogSnippet(String blogSnippet) {
+        this.blogSnippet = blogSnippet;
     }
 }

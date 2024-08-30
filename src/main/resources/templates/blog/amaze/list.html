@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="blog/amaze/header::head-fragment"></head>
-<body id="blog">
+<body class="bg-gray-100 text-gray-900">
 <div th:replace="blog/amaze/header::nav-fragment"></div>
 <div th:replace="blog/amaze/header::header-fragment"></div>
-<div class="am-g am-g-fixed blog-fixed">
-    <div th:replace="blog/amaze/keyword-list::keyword-list-fragment"></div>
+<div class="max-w-screen-xl mx-auto px-4 flex flex-row">
+    <div th:replace="blog/amaze/blog-list::blog-list-fragment"></div>
     <div th:replace="blog/amaze/side::side-fragment"></div>
 </div>
 <footer th:replace="blog/amaze/footer::footer-fragment"></footer>

@@ -257,11 +257,16 @@ public class MyBlogController {
             comment.setWebsiteUrl(websiteUrl);
         }
         comment.setCommentBody(MyBlogUtils.cleanString(commentBody));
-        return ResultGenerator.genSuccessResult(commentService.addComment(comment));
+        Boolean addResult = commentService.addComment(comment);
+        if (addResult) {
+            return ResultGenerator.genSuccessResult();
+        } else {
+            return ResultGenerator.genFailResult("保存失败");
+        }
     }
 
     /**
-     * 关于页面 以及其他配置了subUrl的文章页
+     * 配置了subUrl的文章页，可以用来修改已有的页面page，不仅是post
      *
      * @return
      */

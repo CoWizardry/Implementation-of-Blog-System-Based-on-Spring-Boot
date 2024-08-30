@@ -8,78 +8,130 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="Window-target" content="_top"/>
     <link rel="stylesheet" th:href="@{/blog/amaze/css/base.css}">
+    <!-- TailwindCSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<nav th:fragment="nav-fragment" class="navbar navbar-default navbar-custom navbar-fixed-top">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle" data-for="toggle-items">
-                <span class="sr-only"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/" th:text="${configurations.get('websiteName')}">
-            </a>
-        </div>
-        <div class="navbar-collapse" style="display: none;" id="toggle-items" >
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a th:href="@{/index}">主页</a>
-                </li>
-                <li>
-                    <a th:href="@{/link}">友链</a>
-                </li>
-                <li>
-                    <a th:href="@{/about}">关于</a>
-                </li>
-                <li>
-                    <a href="https://github.com/ZHENFENG13">GitHub</a>
-                </li>
-            </ul>
-        </div>
-        <div id="huxblog_navbar">
-            <div class="navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a th:href="@{/index}">主页</a>
-                    </li>
-                    <li>
-                        <a th:href="@{/link}">友链</a>
-                    </li>
-                    <li>
-                        <a th:href="@{/about}">关于</a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/ZHENFENG13">GitHub</a>
-                    </li>
+<body class="font-sans antialiased bg-gray-100 text-gray-900">
+<nav th:fragment="nav-fragment" class="bg-white shadow-lg fixed w-full z-50 h-14">
+    <style>
+        .py-4 {
+            padding-top: 0.7rem;
+            padding-bottom: 1rem;
+        }
+        /* 侧边栏样式 */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 250px;
+            background-color: white;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 60;
+        }
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        /* 遮罩层样式 */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 50;
+            display: none;
+        }
+        .overlay.visible {
+            display: block;
+        }
+        /* 大屏幕时隐藏侧边栏和遮罩层 */
+        @media (min-width: 1024px) {
+            .sidebar, .overlay {
+                display: none;
+            }
+        }
+    </style>
+
+    <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between py-4">
+            <div class="flex items-center">
+                <button id="menu-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none lg:hidden" type="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+                <a class="text-2xl font-bold text-gray-800" href="/" th:text="${configurations.get('websiteName')}"></a>
+            </div>
+            <div class="hidden lg:flex lg:items-center lg:w-auto">
+                <ul class="flex space-x-6">
+                    <li><a th:href="@{/index}" class="text-gray-600 hover:text-gray-800">主页</a></li>
+                    <li><a th:href="@{/link}" class="text-gray-600 hover:text-gray-800">友链</a></li>
+                    <li><a th:href="@{/about}" class="text-gray-600 hover:text-gray-800">关于</a></li>
+                    <li><a href="https://github.com/ZHENFENG13" class="text-gray-600 hover:text-gray-800">GitHub</a></li>
                 </ul>
             </div>
         </div>
-        <!-- /.navbar-collapse -->
-        <script th:src="@{/blog/default/js/jquery.min.js}"></script>
-        <script>
-            $(function () {
-                $('.navbar-toggle').click(function () {
-                    $('#toggle-items').fadeToggle("fast");
-                });
-            })
-        </script>
     </div>
-    <!-- /.container -->
+
+    <!-- 侧边栏 -->
+    <div id="sidebar" class="sidebar bg-white shadow-lg w-64 min-h-screen flex flex-col justify-between py-4 px-6 overflow-y-auto">
+        <ul class="space-y-4">
+            <li>
+                <a th:href="@{/index}" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded p-2 transition duration-150 ease-in-out">
+                    主页
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/link}" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded p-2 transition duration-150 ease-in-out">
+                    友链
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/about}" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded p-2 transition duration-150 ease-in-out">
+                    关于
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/ZHENFENG13" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded p-2 transition duration-150 ease-in-out">
+                    GitHub
+                </a>
+            </li>
+        </ul>
+        <!-- 如果需要添加底部内容，可以在这里添加 -->
+    </div>
+
+    <!-- 遮罩层 -->
+    <div id="overlay" class="overlay"></div>
+
+    <script th:src="@{/blog/default/js/jquery.min.js}"></script>
+    <script>
+        $(function () {
+            $('#menu-btn').click(function () {
+                $('#sidebar').toggleClass('open');
+                $('#overlay').toggleClass('visible');
+            });
+
+            $('#overlay').click(function () {
+                $('#sidebar').removeClass('open');
+                $('#overlay').removeClass('visible');
+            });
+        });
+    </script>
 </nav>
-<header th:fragment="header-fragment" class="intro-header"
+
+<header th:fragment="header-fragment" class="relative flex items-center justify-center h-64 bg-cover bg-center"
         th:style="'background-image:url(' + @{/blog/amaze/images/header.jpg} + ');'">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="site-heading">
-          <span class="subheading">
-              我不怕千万人阻挡，只怕自己投降
-          </span>
-                </div>
-            </div>
-        </div>
+    <div class="absolute inset-0 bg-black opacity-50"></div>
+    <div class="container relative z-10 text-center">
+        <h1 class="text-4xl font-bold text-white">
+            我不怕千万人阻挡，只怕自己投降
+        </h1>
     </div>
 </header>
+</body>
 </html>

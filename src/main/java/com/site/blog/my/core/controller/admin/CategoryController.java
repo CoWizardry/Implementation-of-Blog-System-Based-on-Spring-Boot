@@ -15,13 +15,13 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/categories")
 public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("/categories")
+    @GetMapping("")
     public String categoryPage(HttpServletRequest request) {
         request.setAttribute("path", "categories");
         return "admin/category";
@@ -31,7 +31,7 @@ public class CategoryController {
      * 分类列表
      */
 //    @RequestMapping(value = "/categories/list", method = RequestMethod.GET)
-    @GetMapping("/categories/list")
+    @GetMapping("/list")
     @ResponseBody
     public Result list(@RequestParam Map<String, Object> params) {
         if (ObjectUtils.isEmpty(params.get("page")) || ObjectUtils.isEmpty(params.get("limit"))) {
@@ -45,7 +45,7 @@ public class CategoryController {
      * 分类添加
      */
 //    @RequestMapping(value = "/categories/save", method = RequestMethod.POST)
-    @PostMapping("/categories/save")
+    @PostMapping("/save")
     @ResponseBody
     public Result save(@RequestParam("categoryName") String categoryName,
                        @RequestParam("categoryIcon") String categoryIcon) {
@@ -70,7 +70,7 @@ public class CategoryController {
      * 分类修改
      */
 //    @RequestMapping(value = "/categories/update", method = RequestMethod.POST)
-    @PostMapping("/categories/update")
+    @PostMapping("/update")
     @ResponseBody
     public Result update(@RequestParam("categoryId") Integer categoryId,
                          @RequestParam("categoryName") String categoryName,
@@ -96,7 +96,7 @@ public class CategoryController {
      * 分类删除
      */
 //    @RequestMapping(value = "/categories/delete", method = RequestMethod.POST)
-    @PostMapping("/categories/delete")
+    @PostMapping("/delete")
     @ResponseBody
     public Result delete(@RequestBody Integer[] ids) {
         if (ids.length < 1) {

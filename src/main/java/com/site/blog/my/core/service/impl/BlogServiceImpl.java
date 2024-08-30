@@ -360,6 +360,7 @@ public class BlogServiceImpl implements BlogService {
                     blogDTO.setBlogCategoryId(0);
                     blogDTO.setBlogCategoryName("默认分类");
                     blogDTO.setBlogCategoryIcon("/admin/dist/img/category/00.png");
+                    blogDTO.setBlogSnippet(blog.getBlogContent().length() > 200 ? blog.getBlogContent().substring(0, 200) : blog.getBlogContent()); //文章片段
                 }
                 blogDTOS.add(blogDTO);
             }
