@@ -240,8 +240,11 @@ public class BlogController {
         if (ids.length < 1) {
             return ResultGenerator.genFailResult("参数异常！");
         }
-        if (blogService.deleteBatch(ids)) {
+        int deleteResult = blogService.deleteBatch(ids);
+        if (deleteResult == 1) {
             return ResultGenerator.genSuccessResult();
+        } else if (deleteResult == 0) {
+            return ResultGenerator.genFailResult("标签关联删除失败");
         } else {
             return ResultGenerator.genFailResult("删除失败");
         }

@@ -1,28 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<footer class="text-gray-600 py-4 text-sm" th:fragment="footer-fragment">
+<footer class="text-gray-600 py-4 text-sm mt-8" th:fragment="footer-fragment">
     <div class="container mx-auto text-center space-y-2">
         <p>
             &copy;
             <a href="#" th:text="${configurations.get('footerAbout')}" class="text-blue-400 hover:text-blue-600">your single blog</a>
             &nbsp; • &nbsp;
             Powered by
-            <a href="https://github.com/ZHENFENG13" target="_blank" th:text="${configurations.get('footerCopyRight')}" class="text-blue-400 hover:text-blue-600">2018 十三</a>
+            <a href="https://github.com/CoWizardry" target="_blank" th:text="${configurations.get('footerCopyRight')}" class="text-blue-400 hover:text-blue-600">2023 薛定谔的喵</a>
         </p>
         <p>
             ICP
-            <a href="https://beian.miit.gov.cn" th:text="${configurations.get('footerICP')}" class="text-blue-400 hover:text-blue-600">浙ICP备 xxxxxx-x号</a>
+            <a href="https://beian.miit.gov.cn" th:text="${configurations.get('footerICP')}" class="text-blue-400 hover:text-blue-600">粤ICP备 xxxxxx-x号</a>
             &nbsp;
             <span class="text-red-500">&heartsuit;</span>
-        </p>
-        <p>
-            Theme
-            <a rel="friend" href="https://github.com/spiritree/typecho-theme-amaze" target="_blank" class="text-blue-400 hover:text-blue-600">Amaze</a>
-            by
-            <a href="https://github.com/spiritree" target="_blank" class="text-blue-400 hover:text-blue-600">spiritree</a>
-            &
-            <a href="https://github.com/zjhch123" target="_blank" class="text-blue-400 hover:text-blue-600">Jiahao.Zhang</a>
         </p>
     </div>
 </footer>

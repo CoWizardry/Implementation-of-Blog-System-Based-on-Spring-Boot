@@ -8,7 +8,7 @@
     <!-- 引入工具栏sidebar-fragment -->
     <div th:replace="admin/sidebar::sidebar-fragment(${path})"></div>
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+    <div class="content-wrapper mt-14">
         <!-- Content Header (Page header) -->
         <div class="content-header">
             <div class="container-fluid">
@@ -16,144 +16,136 @@
         </div>
         <!-- Main content -->
         <div class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card card-primary card-outline">
-                            <div class="card-header">
-                                <h3 class="card-title">站点信息</h3>
-                            </div> <!-- /.card-body -->
-                            <div class="card-body">
-                                <form role="form" id="websiteForm">
-                                    <!-- text input -->
-                                    <div class="form-group">
-                                        <label>站点名称</label>
-                                        <input type="text" class="form-control" id="websiteName"
-                                               name="websiteName"
-                                               placeholder="站点名称" th:value="${configurations.get('websiteName')}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>站点描述</label>
-                                        <input type="text" class="form-control" id="websiteDescription"
-                                               name="websiteDescription"
-                                               th:value="${configurations.get('websiteDescription')}"
-                                               placeholder="站点描述">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>站点Logo</label>
-                                        <input type="text" class="form-control" id="websiteLogo"
-                                               name="websiteLogo" th:value="${configurations.get('websiteLogo')}"
-                                               placeholder="站点Logo">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>favicon.ico</label>
-                                        <input type="text" class="form-control" id="websiteIcon"
-                                               th:value="${configurations.get('websiteIcon')}"
-                                               name="websiteIcon"
-                                               placeholder="favicon.ico">
-                                    </div>
-                                    <div class="card-footer">
-                                        <button type="button" id="updateWebsiteButton" onsubmit="return false;"
-                                                class="btn btn-danger float-right">确认修改
-                                        </button>
-                                    </div>
-                                </form>
-                            </div><!-- /.card-body -->
+            <div class="container mx-auto p-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Site Information -->
+                    <div class="bg-white shadow-md rounded-lg flex flex-col">
+                        <div class="bg-blue-600 text-white px-4 py-2 rounded-t-lg">
+                            <h3 class="text-lg font-semibold">站点信息</h3>
+                        </div>
+                        <div class="p-4 flex-1">
+                            <form id="websiteForm">
+                                <div class="mb-4">
+                                    <label class="block text-gray-700">站点名称</label>
+                                    <input type="text" id="websiteName" name="websiteName"
+                                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                           placeholder="站点名称" th:value="${configurations.get('websiteName')}">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="block text-gray-700">站点描述</label>
+                                    <input type="text" id="websiteDescription" name="websiteDescription"
+                                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                           placeholder="站点描述" th:value="${configurations.get('websiteDescription')}">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="block text-gray-700">站点Logo</label>
+                                    <input type="text" id="websiteLogo" name="websiteLogo"
+                                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                           placeholder="站点Logo" th:value="${configurations.get('websiteLogo')}">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="block text-gray-700">favicon.ico</label>
+                                    <input type="text" id="websiteIcon" name="websiteIcon"
+                                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                           placeholder="favicon.ico" th:value="${configurations.get('websiteIcon')}">
+                                </div>
+                            </form>
+                        </div>
+                        <div class=" p-4 flex justify-end">
+                            <button type="button" id="updateWebsiteButton"
+                                    class="bg-red-600 text-white px-4 py-2 rounded-lg shadow hover:bg-red-700">确认修改
+                            </button>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="card card-primary card-outline">
-                            <div class="card-header">
-                                <h3 class="card-title">个人信息</h3>
-                            </div> <!-- /.card-body -->
-                            <div class="card-body">
-                                <form role="form" id="userInfoForm">
-                                    <!-- input states -->
-                                    <div class="form-group">
-                                        <label class="control-label">个人头像</label>
-                                        <input type="text" class="form-control" id="yourAvatar"
-                                               name="yourAvatar" th:value="${configurations.get('yourAvatar')}"
-                                               placeholder="个人头像">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label">个人名称</label>
-                                        <input type="text" class="form-control" id="yourName"
-                                               name="yourName" th:value="${configurations.get('yourName')}"
-                                               placeholder="个人名称">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label">个人邮箱</label>
-                                        <input type="email" class="form-control" id="yourEmail" name="yourEmail"
-                                               th:value="${configurations.get('yourEmail')}"
-                                               placeholder="个人邮箱">
-                                    </div>
-                                    <div class="card-footer">
-                                        <button type="button" id="updateUserInfoButton" onsubmit="return false;"
-                                                class="btn btn-danger float-right">确认修改
-                                        </button>
-                                    </div>
-                                </form>
-                            </div><!-- /.card-body -->
+
+                    <!-- Personal Information -->
+                    <div class="bg-white shadow-md rounded-lg flex flex-col">
+                        <div class="bg-blue-600 text-white px-4 py-2 rounded-t-lg">
+                            <h3 class="text-lg font-semibold">个人信息</h3>
+                        </div>
+                        <div class="p-4 flex-1">
+                            <form id="userInfoForm">
+                                <div class="mb-4">
+                                    <label class="block text-gray-700">个人头像</label>
+                                    <input type="text" id="yourAvatar" name="yourAvatar"
+                                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                           placeholder="个人头像" th:value="${configurations.get('yourAvatar')}">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="block text-gray-700">个人名称</label>
+                                    <input type="text" id="yourName" name="yourName"
+                                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                           placeholder="个人名称" th:value="${configurations.get('yourName')}">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="block text-gray-700">个人邮箱</label>
+                                    <input type="email" id="yourEmail" name="yourEmail"
+                                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                           placeholder="个人邮箱" th:value="${configurations.get('yourEmail')}">
+                                </div>
+                            </form>
+                        </div>
+                        <div class=" p-4 flex justify-end">
+                            <button type="button" id="updateUserInfoButton"
+                                    class="bg-red-600 text-white px-4 py-2 rounded-lg shadow hover:bg-red-700">确认修改
+                            </button>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="card card-primary card-outline">
-                            <div class="card-header">
-                                <h3 class="card-title">底部设置</h3>
-                            </div> <!-- /.card-body -->
-                            <div class="card-body">
-                                <form role="form" id="footerForm">
-                                    <!-- input states -->
-                                    <div class="form-group">
-                                        <label class="control-label">底部About</label>
-                                        <input type="text" class="form-control" id="footerAbout"
-                                               name="footerAbout" th:value="${configurations.get('footerAbout')}"
-                                               placeholder="About">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label">底部备案号</label>
-                                        <input type="text" class="form-control" id="footerICP" name="footerICP"
-                                               th:value="${configurations.get('footerICP')}"
-                                               placeholder="备案号">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label">底部Copy Right</label>
-                                        <input type="text" class="form-control" id="footerCopyRight"
-                                               name="footerCopyRight"
-                                               th:value="${configurations.get('footerCopyRight')}"
-                                               placeholder="Copy Right">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label">底部Powered By</label>
-                                        <input type="text" class="form-control" id="footerPoweredBy"
-                                               name="footerPoweredBy"
-                                               th:value="${configurations.get('footerPoweredBy')}"
-                                               placeholder="Powered By">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label">底部Powered By URL</label>
-                                        <input type="text" class="form-control" id="footerPoweredByURL"
-                                               name="footerPoweredByURL"
-                                               th:value="${configurations.get('footerPoweredByURL')}"
-                                               placeholder="Powered By URL">
-                                    </div>
-                                    <div class="card-footer">
-                                        <button type="button" id="updateFooterButton" onsubmit="return false;"
-                                                class="btn btn-danger float-right">确认修改
-                                        </button>
-                                    </div>
-                                </form>
-                            </div><!-- /.card-body -->
+
+                    <!-- Footer Settings -->
+                    <div class="bg-white shadow-md rounded-lg flex flex-col">
+                        <div class="bg-blue-600 text-white px-4 py-2 rounded-t-lg">
+                            <h3 class="text-lg font-semibold">底部设置</h3>
+                        </div>
+                        <div class="p-4 flex-1">
+                            <form id="footerForm">
+                                <div class="mb-4">
+                                    <label class="block text-gray-700">底部About</label>
+                                    <input type="text" id="footerAbout" name="footerAbout"
+                                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                           placeholder="About" th:value="${configurations.get('footerAbout')}">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="block text-gray-700">底部备案号</label>
+                                    <input type="text" id="footerICP" name="footerICP"
+                                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                           placeholder="备案号" th:value="${configurations.get('footerICP')}">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="block text-gray-700">底部Copy Right</label>
+                                    <input type="text" id="footerCopyRight" name="footerCopyRight"
+                                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                           placeholder="Copy Right" th:value="${configurations.get('footerCopyRight')}">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="block text-gray-700">底部Powered By</label>
+                                    <input type="text" id="footerPoweredBy" name="footerPoweredBy"
+                                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                           placeholder="Powered By" th:value="${configurations.get('footerPoweredBy')}">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="block text-gray-700">底部Powered By URL</label>
+                                    <input type="text" id="footerPoweredByURL" name="footerPoweredByURL"
+                                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                           placeholder="Powered By URL" th:value="${configurations.get('footerPoweredByURL')}">
+                                </div>
+                            </form>
+                        </div>
+                        <div class=" p-4 flex justify-end">
+                            <button type="button" id="updateFooterButton"
+                                    class="bg-red-600 text-white px-4 py-2 rounded-lg shadow hover:bg-red-700">确认修改
+                            </button>
                         </div>
                     </div>
                 </div>
-            </div><!-- /.container-fluid -->
+            </div>
         </div>
+
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
     <!-- 引入页脚footer-fragment -->
-    <div th:replace="admin/footer::footer-fragment"></div>
+<!--    <div th:replace="admin/footer::footer-fragment"></div>-->
 </div>
 <!-- jQuery -->
 <script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>

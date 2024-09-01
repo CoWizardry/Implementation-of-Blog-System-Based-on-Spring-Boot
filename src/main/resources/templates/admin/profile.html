@@ -8,7 +8,7 @@
     <!-- 引入工具栏sidebar-fragment -->
     <div th:replace="admin/sidebar::sidebar-fragment(${path})"></div>
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+    <div class="content-wrapper mt-14">
         <!-- Content Header (Page header) -->
         <div class="content-header">
             <div class="container-fluid">
@@ -16,34 +16,32 @@
         </div>
         <!-- Main content -->
         <section class="content">
-            <div class="container-fluid">
+            <div class="container mx-auto p-4">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="card card-primary card-outline">
-                            <div class="card-header">
-                                <h3 class="card-title">基本信息</h3>
-                            </div> <!-- /.card-body -->
-                            <div class="card-body">
+                        <div class="bg-white shadow-md rounded-lg">
+                            <div class="bg-blue-600 text-white px-4 py-2 rounded-t-lg">
+                                <h3 class="text-lg font-semibold">基本信息</h3>
+                            </div>
+                            <div class="p-4">
                                 <form role="form" id="userNameForm">
-                                    <div class="form-group col-sm-8">
+                                    <div class="form-group col-sm-8 mb-4">
                                         <div class="alert alert-danger" id="updateUserName-info" style="display: none;"></div>
                                     </div>
                                     <!-- text input -->
-                                    <div class="form-group">
-                                        <label>登陆名称</label>
-                                        <input type="text" class="form-control" id="loginUserName"
-                                               name="loginUserName"
-                                               placeholder="请输入登陆名称" required="true" th:value="${loginUserName}">
+                                    <div class="mb-4">
+                                        <label class="block text-gray-700">登陆名称</label>
+                                        <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                               id="loginUserName" name="loginUserName" placeholder="请输入登陆名称" required="true" th:value="${loginUserName}">
                                     </div>
-                                    <div class="form-group">
-                                        <label>昵称</label>
-                                        <input type="text" class="form-control" id="nickName"
-                                               name="nickName"
-                                               placeholder="请输入昵称" required="true" th:value="${nickName}">
+                                    <div class="mb-4">
+                                        <label class="block text-gray-700">昵称</label>
+                                        <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                               id="nickName" name="nickName" placeholder="请输入昵称" required="true" th:value="${nickName}">
                                     </div>
-                                    <div class="card-footer">
+                                    <div class="text-right">
                                         <button type="button" id="updateUserNameButton" onsubmit="return false;"
-                                                class="btn btn-danger float-right">确认修改
+                                                class="bg-red-600 text-white px-4 py-2 rounded-lg shadow hover:bg-red-700">确认修改
                                         </button>
                                     </div>
                                 </form>
@@ -51,30 +49,29 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="card card-primary card-outline">
-                            <div class="card-header">
-                                <h3 class="card-title">修改密码</h3>
-                            </div> <!-- /.card-body -->
-                            <div class="card-body">
+                        <div class="bg-white shadow-md rounded-lg">
+                            <div class="bg-blue-600 text-white px-4 py-2 rounded-t-lg">
+                                <h3 class="text-lg font-semibold">修改密码</h3>
+                            </div>
+                            <div class="p-4">
                                 <form role="form" id="userPasswordForm">
-                                    <div class="form-group col-sm-8">
+                                    <div class="form-group col-sm-8 mb-4">
                                         <div class="alert alert-danger updatePassword-info" id="updatePassword-info" style="display: none;"></div>
                                     </div>
                                     <!-- input states -->
-                                    <div class="form-group">
-                                        <label class="control-label"><i class="fa fa-key"></i> 原密码</label>
-                                        <input type="text" class="form-control" id="originalPassword"
-                                               name="originalPassword"
-                                               placeholder="请输入原密码" required="true">
+                                    <div class="mb-4">
+                                        <label class="block text-gray-700"><i class="fa fa-key"></i> 原密码</label>
+                                        <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                               id="originalPassword" name="originalPassword" placeholder="请输入原密码" required="true">
                                     </div>
-                                    <div class="form-group">
-                                        <label class="control-label"><i class="fa fa-key"></i> 新密码</label>
-                                        <input type="text" class="form-control" id="newPassword" name="newPassword"
-                                               placeholder="请输入新密码" required="true">
+                                    <div class="mb-4">
+                                        <label class="block text-gray-700"><i class="fa fa-key"></i> 新密码</label>
+                                        <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                               id="newPassword" name="newPassword" placeholder="请输入新密码" required="true">
                                     </div>
-                                    <div class="card-footer">
+                                    <div class="text-right">
                                         <button type="button" id="updatePasswordButton" onsubmit="return false;"
-                                                class="btn btn-danger float-right">确认修改
+                                                class="bg-red-600 text-white px-4 py-2 rounded-lg shadow hover:bg-red-700">确认修改
                                         </button>
                                     </div>
                                 </form>
@@ -84,11 +81,12 @@
                 </div>
             </div><!-- /.container-fluid -->
         </section>
+
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
     <!-- 引入页脚footer-fragment -->
-    <div th:replace="admin/footer::footer-fragment"></div>
+<!--    <div th:replace="admin/footer::footer-fragment"></div>-->
 </div>
 <!-- jQuery -->
 <script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>

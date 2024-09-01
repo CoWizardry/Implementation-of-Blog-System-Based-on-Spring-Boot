@@ -124,6 +124,7 @@ public class MyBlogController {
         request.setAttribute("hotBlogs", blogService.getBlogListForIndexPage(0));
         request.setAttribute("hotTags", tagService.getBlogTagCountForIndex());
         request.setAttribute("configurations", configService.getAllConfigs());
+        request.setAttribute("title", tagName);
         return "blog/" + theme + "/list";
     }
 
@@ -153,6 +154,7 @@ public class MyBlogController {
         request.setAttribute("hotBlogs", blogService.getBlogListForIndexPage(0));
         request.setAttribute("hotTags", tagService.getBlogTagCountForIndex());
         request.setAttribute("configurations", configService.getAllConfigs());
+        request.setAttribute("title", categoryName);
         return "blog/" + theme + "/list";
     }
 
@@ -182,6 +184,7 @@ public class MyBlogController {
         request.setAttribute("hotBlogs", blogService.getBlogListForIndexPage(0));
         request.setAttribute("hotTags", tagService.getBlogTagCountForIndex());
         request.setAttribute("configurations", configService.getAllConfigs());
+        request.setAttribute("title", keyword);
         return "blog/" + theme + "/list";
     }
 

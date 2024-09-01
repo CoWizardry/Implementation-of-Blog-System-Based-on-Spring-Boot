@@ -13,7 +13,7 @@ public interface BlogService {
 
     PageResult getBlogsPage(PageQueryUtil pageUtil);
 
-    Boolean deleteBatch(Integer[] ids);
+    int deleteBatch(Integer[] ids);
 
     int getTotalBlogs();
 

@@ -16,7 +16,7 @@
     <!-- 引入工具栏sidebar-fragment -->
     <div th:replace="admin/sidebar::sidebar-fragment(${path})"></div>
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+    <div class="content-wrapper mt-14">
         <!-- Content Header (Page header) -->
         <div class="content-header">
             <div class="container-fluid">
@@ -24,92 +24,98 @@
         </div>
         <!-- Main content -->
         <div class="content">
-            <div class="container-fluid">
-                <div class="card card-primary card-outline">
-                    <div class="card-header">
-                        <h3 class="card-title">友情链接管理</h3>
-                    </div> <!-- /.card-body -->
-                    <div class="card-body">
-                        <div class="grid-btn">
-                            <button class="btn btn-info" onclick="linkAdd()"><i
-                                    class="fa fa-plus"></i>&nbsp;新增
+            <div class="container mx-auto">
+                <div class="card border border-gray-300 shadow-lg rounded-lg">
+                    <div class="card-header bg-blue-600 p-4 rounded-t-lg">
+                        <h3 class="card-title text-lg font-semibold">友情链接管理</h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="flex space-x-4 mb-4">
+                            <button class="btn bg-blue-500 text-white hover:bg-blue-600 py-2 px-4 rounded flex items-center" onclick="linkAdd()">
+                                <i class="fa fa-plus mr-2"></i>新增
                             </button>
-                            <button class="btn btn-info" onclick="linkEdit()"><i
-                                    class="fa fa-pencil-square-o"></i>&nbsp;修改
+                            <button class="btn bg-yellow-500 text-white hover:bg-yellow-600 py-2 px-4 rounded flex items-center" onclick="linkEdit()">
+                                <i class="fa fa-pencil-square-o mr-2"></i>修改
                             </button>
-                            <button class="btn btn-danger" onclick="deleteLink()"><i
-                                    class="fa fa-trash-o"></i>&nbsp;删除
+                            <button class="btn bg-red-500 text-white hover:bg-red-600 py-2 px-4 rounded flex items-center" onclick="deleteLink()">
+                                <i class="fa fa-trash-o mr-2"></i>删除
                             </button>
                         </div>
-                        <table id="jqGrid" class="table table-bordered">
+                        <table id="jqGrid" class="table-auto w-full border-collapse border border-gray-300">
+                            <!-- 表格内容 -->
                         </table>
-                        <div id="jqGridPager"></div>
-                    </div><!-- /.card-body -->
+                        <div id="jqGridPager" class="mt-4">
+                            <!-- 分页器内容 -->
+                        </div>
+                    </div>
                 </div>
-            </div><!-- /.container-fluid -->
+            </div>
         </div>
+
         <!-- /.content -->
-        <div class="content">
-            <!-- 模态框（Modal） -->
+        <div class="content  pt-4">
+            <!-- Modal -->
             <div class="modal fade" id="linkModal" tabindex="-1" role="dialog" aria-labelledby="linkModalLabel">
                 <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                            <h6 class="modal-title" id="linkModalLabel">Modal</h6>
+                    <div class="modal-content bg-white shadow-lg rounded-lg">
+                        <div class="modal-header flex justify-between items-center p-4 border-b border-gray-200">
+                            <h6 class="modal-title text-lg font-medium text-gray-700" id="linkModalLabel">Modal</h6>
+                            <button type="button" class="close text-gray-500 hover:text-gray-700" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body p-4">
                             <form id="linkForm">
                                 <div class="form-group">
-                                    <div class="alert alert-danger" id="edit-error-msg" style="display: none;">
+                                    <div class="alert alert-danger hidden" id="edit-error-msg">
                                         错误信息展示栏。
                                     </div>
                                 </div>
                                 <input type="hidden" class="form-control" id="linkId" name="linkId">
-                                <div class="form-group">
-                                    <label for="linkType" class="control-label">友链类型:</label>
-                                    <select class="form-control" id="linkType" name="linkType">
+                                <div class="form-group mb-4">
+                                    <label for="linkType" class="block text-sm font-medium text-gray-700">友链类型:</label>
+                                    <select class="form-control mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="linkType" name="linkType">
                                         <option selected="selected" value="0">友链</option>
                                         <option value="1">推荐网站</option>
                                         <option value="2">个人链接</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="linkName" class="control-label">网站名称:</label>
-                                    <input type="text" class="form-control" id="linkName" name="linkName"
-                                           placeholder="请输入网站名称" required="true">
+                                <div class="form-group mb-4">
+                                    <label for="linkName" class="block text-sm font-medium text-gray-700">网站名称:</label>
+                                    <input type="text" class="form-control mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="linkName" name="linkName"
+                                           placeholder="请输入网站名称" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="linkUrl" class="control-label">网站链接:</label>
-                                    <input type="url" class="form-control" id="linkUrl" name="linkUrl"
-                                           placeholder="请输入网站链接" required="true">
+                                <div class="form-group mb-4">
+                                    <label for="linkUrl" class="block text-sm font-medium text-gray-700">网站链接:</label>
+                                    <input type="url" class="form-control mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="linkUrl" name="linkUrl"
+                                           placeholder="请输入网站链接" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="linkDescription" class="control-label">网站描述:</label>
-                                    <input type="url" class="form-control" id="linkDescription" name="linkDescription"
-                                           placeholder="请输入网站描述" required="true">
+                                <div class="form-group mb-4">
+                                    <label for="linkDescription" class="block text-sm font-medium text-gray-700">网站描述:</label>
+                                    <input type="url" class="form-control mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="linkDescription" name="linkDescription"
+                                           placeholder="请输入网站描述" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="linkRank" class="control-label">排序值:</label>
-                                    <input type="number" class="form-control" id="linkRank" name="linkRank"
-                                           placeholder="请输入排序值" required="true">
+                                <div class="form-group mb-4">
+                                    <label for="linkRank" class="block text-sm font-medium text-gray-700">排序值:</label>
+                                    <input type="number" class="form-control mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="linkRank" name="linkRank"
+                                           placeholder="请输入排序值" required>
                                 </div>
                             </form>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-primary" id="saveButton">确认</button>
+                        <div class="modal-footer flex justify-end p-4 border-t border-gray-200">
+                            <button type="button" class="btn btn-secondary text-gray-600 hover:text-gray-800 mr-2" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary bg-blue-600 text-white hover:bg-blue-700" id="saveButton">确认</button>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- /.modal -->
         </div>
+
     </div>
     <!-- /.content-wrapper -->
     <!-- 引入页脚footer-fragment -->
-    <div th:replace="admin/footer::footer-fragment"></div>
+<!--    <div th:replace="admin/footer::footer-fragment"></div>-->
 </div>
 <!-- jQuery -->
 <script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>

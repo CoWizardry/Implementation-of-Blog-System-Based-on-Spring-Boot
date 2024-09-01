@@ -9,95 +9,176 @@
     <!-- 引入工具栏sidebar-fragment -->
     <div th:replace="admin/sidebar::sidebar-fragment(${path})"></div>
     <!-- Content Wrapper. Contains 图标content -->
-    <div class="content-wrapper">
+    <div class="content-wrapper bg-gray-100 min-h-screen mt-14">
         <!-- Content Header (图标header) -->
         <div class="content-header">
-            <div class="container-fluid">
-            </div><!-- /.container-fluid -->
+            <div class="container mx-auto">
+            </div><!-- /.container -->
         </div>
         <!-- Main content -->
         <div class="content">
-            <div class="container-fluid">
-                <div class="card card-primary card-outline">
-                    <div class="card-header">
-                        <h3 class="card-title">分类管理</h3>
-                    </div> <!-- /.card-body -->
-                    <div class="card-body">
-                        <div class="grid-btn">
-                            <button class="btn btn-info" onclick="categoryAdd()"><i
-                                    class="fa fa-plus"></i>&nbsp;新增
+            <div class="container mx-auto">
+                <div class="card border border-gray-300 shadow-lg rounded-lg">
+                    <div class="card-header bg-blue-600 p-4 rounded-t-lg">
+                        <h3 class="card-title text-lg font-semibold">分类管理</h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="flex space-x-4 mb-4">
+                            <button class="btn bg-blue-500 text-white hover:bg-blue-600 py-2 px-4 rounded flex items-center" onclick="categoryAdd()">
+                                <i class="fa fa-plus mr-2"></i>新增
                             </button>
-                            <button class="btn btn-info" onclick="categoryEdit()"><i
-                                    class="fa fa-pencil-square-o"></i>&nbsp;修改
+                            <button class="btn bg-yellow-500 text-white hover:bg-yellow-600 py-2 px-4 rounded flex items-center" onclick="categoryEdit()">
+                                <i class="fa fa-pencil-square-o mr-2"></i>修改
                             </button>
-                            <button class="btn btn-danger" onclick="deleteCagegory()"><i
-                                    class="fa fa-trash-o"></i>&nbsp;删除
+                            <button class="btn bg-red-500 text-white hover:bg-red-600 py-2 px-4 rounded flex items-center" onclick="deleteCategory()">
+                                <i class="fa fa-trash-o mr-2"></i>删除
                             </button>
                         </div>
-                        <br>
-                        <table id="jqGrid" class="table table-bordered">
+                        <table id="jqGrid" class="table-auto w-full border-collapse border border-gray-300">
+                            <!-- 表格内容 -->
                         </table>
-                        <div id="jqGridPager"></div>
-                    </div><!-- /.card-body -->
+                        <div id="jqGridPager" class="mt-4">
+                            <!-- 分页器内容 -->
+                        </div>
+                    </div>
                 </div>
-            </div><!-- /.container-fluid -->
-        </div>
-        <!-- /.content -->
-        <div class="content">
+            </div><!-- /.container -->
+        </div><!-- /.content -->
+        <div class="content   pt-4">
             <!-- 模态框（Modal） -->
             <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel">
                 <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                            <h6 class="modal-title" id="categoryModalLabel">Modal</h6>
+                    <div class="modal-content bg-white shadow-lg rounded-lg">
+                        <div class="modal-header flex justify-between items-center p-4 border-b border-gray-200">
+                            <h6 class="modal-title text-lg font-medium text-gray-700" id="categoryModalLabel">Modal</h6>
+                            <button type="button" class="close text-gray-500 hover:text-gray-700" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body p-4">
                             <form id="categoryForm">
                                 <div class="form-group">
-                                    <div class="alert alert-danger" id="edit-error-msg" style="display: none;">
+                                    <div class="alert alert-danger text-red-500 bg-red-100 p-2 rounded" id="edit-error-msg" style="display: none;">
                                         错误信息展示栏。
                                     </div>
                                 </div>
                                 <input type="hidden" class="form-control" id="categoryId" name="categoryId">
-                                <div class="form-group">
-                                    <label for="categoryName" class="control-label">分类名称:</label>
-                                    <input type="text" class="form-control" id="categoryName" name="categoryName"
-                                           placeholder="请输入分类名称" required="true">
+                                <div class="form-group mb-4">
+                                    <label for="categoryName" class="block text-sm font-medium text-gray-700">分类名称:</label>
+                                    <input type="text" class="form-control mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="categoryName" name="categoryName"
+                                           placeholder="请输入分类名称" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="categoryIcon" class="control-label">分类图标:</label>
-                                    <select class='form-control select2 image-picker' id="categoryIcon"
-                                            name="categoryIcon">
-                                        <option data-img-src='/admin/dist/img/category/00.png' value='/admin/dist/img/category/00.png'> 默认图标</option>
-                                        <option data-img-src='/admin/dist/img/category/01.png' value='/admin/dist/img/category/01.png'> 图标1</option>
-                                        <option data-img-src='/admin/dist/img/category/02.png' value='/admin/dist/img/category/02.png'> 图标2</option>
-                                        <option data-img-src='/admin/dist/img/category/03.png' value='/admin/dist/img/category/03.png'> 图标3</option>
-                                        <option data-img-src='/admin/dist/img/category/04.png' value='/admin/dist/img/category/04.png'> 图标4</option>
-                                        <option data-img-src='/admin/dist/img/category/05.png' value='/admin/dist/img/category/05.png'> 图标5</option>
-                                        <option data-img-src='/admin/dist/img/category/06.png' value='/admin/dist/img/category/06.png'> 图标6</option>
-                                        <option data-img-src='/admin/dist/img/category/07.png' value='/admin/dist/img/category/07.png'> 图标7</option>
-                                        <option data-img-src='/admin/dist/img/category/08.png' value='/admin/dist/img/category/08.png'> 图标8</option>
-                                        <option data-img-src='/admin/dist/img/category/09.png' value='/admin/dist/img/category/09.png'> 图标9</option>
-                                        <option data-img-src='/admin/dist/img/category/10.png' value='/admin/dist/img/category/10.png'> 图标10</option>
-                                        <option data-img-src='/admin/dist/img/category/11.png' value='/admin/dist/img/category/11.png'> 图标11</option>
-                                        <option data-img-src='/admin/dist/img/category/12.png' value='/admin/dist/img/category/12.png'> 图标12</option>
-                                        <option data-img-src='/admin/dist/img/category/13.png' value='/admin/dist/img/category/13.png'> 图标13</option>
-                                        <option data-img-src='/admin/dist/img/category/14.png' value='/admin/dist/img/category/14.png'> 图标14</option>
-                                        <option data-img-src='/admin/dist/img/category/15.png' value='/admin/dist/img/category/15.png'> 图标15</option>
-                                        <option data-img-src='/admin/dist/img/category/16.png' value='/admin/dist/img/category/16.png'> 图标16</option>
-                                        <option data-img-src='/admin/dist/img/category/17.png' value='/admin/dist/img/category/17.png'> 图标17</option>
-                                        <option data-img-src='/admin/dist/img/category/18.png' value='/admin/dist/img/category/18.png'> 图标18</option>
-                                        <option data-img-src='/admin/dist/img/category/19.png' value='/admin/dist/img/category/19.png'> 图标19</option>
-                                    </select>
+                                <div class="container mx-auto">
+                                    <div class="form-group mb-4">
+                                        <label for="categoryIcon" class="block text-gray-700 font-medium mb-2">分类图标:</label>
+                                        <div id="iconPicker" class="grid grid-cols-4 gap-4">
+                                            <!-- 图标项 -->
+                                            <div class="icon-picker-item" data-img-src='/admin/dist/img/category/00.png' onclick="selectIcon(this)">
+                                                <img src='/admin/dist/img/category/00.png' alt='图标' class='w-16 h-16 object-cover rounded'>
+                                            </div>
+                                            <div class="icon-picker-item" data-img-src='/admin/dist/img/category/01.png' onclick="selectIcon(this)">
+                                                <img src='/admin/dist/img/category/01.png' alt='图标' class='w-16 h-16 object-cover rounded'>
+                                            </div>
+                                            <div class="icon-picker-item" data-img-src='/admin/dist/img/category/02.png' onclick="selectIcon(this)">
+                                                <img src='/admin/dist/img/category/02.png' alt='图标' class='w-16 h-16 object-cover rounded'>
+                                            </div>
+                                            <div class="icon-picker-item" data-img-src='/admin/dist/img/category/03.png' onclick="selectIcon(this)">
+                                                <img src='/admin/dist/img/category/03.png' alt='图标' class='w-16 h-16 object-cover rounded'>
+                                            </div>
+                                            <div class="icon-picker-item" data-img-src='/admin/dist/img/category/04.png' onclick="selectIcon(this)">
+                                                <img src='/admin/dist/img/category/04.png' alt='图标' class='w-16 h-16 object-cover rounded'>
+                                            </div>
+                                            <div class="icon-picker-item" data-img-src='/admin/dist/img/category/05.png' onclick="selectIcon(this)">
+                                                <img src='/admin/dist/img/category/05.png' alt='图标' class='w-16 h-16 object-cover rounded'>
+                                            </div>
+                                            <div class="icon-picker-item" data-img-src='/admin/dist/img/category/06.png' onclick="selectIcon(this)">
+                                                <img src='/admin/dist/img/category/06.png' alt='图标' class='w-16 h-16 object-cover rounded'>
+                                            </div>
+                                            <div class="icon-picker-item" data-img-src='/admin/dist/img/category/07.png' onclick="selectIcon(this)">
+                                                <img src='/admin/dist/img/category/07.png' alt='图标' class='w-16 h-16 object-cover rounded'>
+                                            </div>
+                                            <div class="icon-picker-item" data-img-src='/admin/dist/img/category/08.png' onclick="selectIcon(this)">
+                                                <img src='/admin/dist/img/category/08.png' alt='图标' class='w-16 h-16 object-cover rounded'>
+                                            </div>
+                                            <div class="icon-picker-item" data-img-src='/admin/dist/img/category/09.png' onclick="selectIcon(this)">
+                                                <img src='/admin/dist/img/category/09.png' alt='图标' class='w-16 h-16 object-cover rounded'>
+                                            </div>
+                                            <div class="icon-picker-item" data-img-src='/admin/dist/img/category/10.png' onclick="selectIcon(this)">
+                                                <img src='/admin/dist/img/category/10.png' alt='图标' class='w-16 h-16 object-cover rounded'>
+                                            </div>
+                                            <div class="icon-picker-item" data-img-src='/admin/dist/img/category/11.png' onclick="selectIcon(this)">
+                                                <img src='/admin/dist/img/category/11.png' alt='图标' class='w-16 h-16 object-cover rounded'>
+                                            </div>
+                                            <div class="icon-picker-item" data-img-src='/admin/dist/img/category/12.png' onclick="selectIcon(this)">
+                                                <img src='/admin/dist/img/category/12.png' alt='图标' class='w-16 h-16 object-cover rounded'>
+                                            </div>
+                                            <div class="icon-picker-item" data-img-src='/admin/dist/img/category/13.png' onclick="selectIcon(this)">
+                                                <img src='/admin/dist/img/category/13.png' alt='图标' class='w-16 h-16 object-cover rounded'>
+                                            </div>
+                                            <div class="icon-picker-item" data-img-src='/admin/dist/img/category/14.png' onclick="selectIcon(this)">
+                                                <img src='/admin/dist/img/category/14.png' alt='图标' class='w-16 h-16 object-cover rounded'>
+                                            </div>
+                                            <div class="icon-picker-item" data-img-src='/admin/dist/img/category/15.png' onclick="selectIcon(this)">
+                                                <img src='/admin/dist/img/category/15.png' alt='图标' class='w-16 h-16 object-cover rounded'>
+                                            </div>
+                                            <div class="icon-picker-item" data-img-src='/admin/dist/img/category/16.png' onclick="selectIcon(this)">
+                                                <img src='/admin/dist/img/category/16.png' alt='图标' class='w-16 h-16 object-cover rounded'>
+                                            </div>
+                                            <div class="icon-picker-item" data-img-src='/admin/dist/img/category/17.png' onclick="selectIcon(this)">
+                                                <img src='/admin/dist/img/category/17.png' alt='图标' class='w-16 h-16 object-cover rounded'>
+                                            </div>
+                                            <div class="icon-picker-item" data-img-src='/admin/dist/img/category/18.png' onclick="selectIcon(this)">
+                                                <img src='/admin/dist/img/category/18.png' alt='图标' class='w-16 h-16 object-cover rounded'>
+                                            </div>
+                                            <div class="icon-picker-item" data-img-src='/admin/dist/img/category/19.png' onclick="selectIcon(this)">
+                                                <img src='/admin/dist/img/category/19.png' alt='图标' class='w-16 h-16 object-cover rounded'>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" id="categoryIcon" name="categoryIcon">
+                                    </div>
                                 </div>
+
+                                <style>
+                                    .icon-picker-item {
+                                        transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+                                        cursor: pointer;
+                                        border: 2px solid #e5e7eb; /* Tailwind's gray-200 */
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                    }
+                                    .icon-picker-item.selected {
+                                        border-color: #3b82f6; /* Tailwind's blue-500 */
+                                        box-shadow: 0 0 0 2px #bfdbfe; /* Tailwind's blue-100 */
+                                        transform: scale(1.1); /* Slightly enlarge the selected item */
+                                    }
+                                    .icon-picker-item img {
+                                        transition: opacity 0.3s;
+                                    }
+                                    .icon-picker-item:hover img {
+                                        opacity: 0.7;
+                                    }
+                                </style>
+                                <script>
+                                    function selectIcon(element) {
+                                        const imgSrc = element.getAttribute('data-img-src');
+                                        document.getElementById('categoryIcon').value = imgSrc;
+
+                                        // Remove 'selected' class from all items
+                                        document.querySelectorAll('.icon-picker-item').forEach(div => {
+                                            div.classList.remove('selected');
+                                        });
+
+                                        // Add 'selected' class to the clicked item
+                                        element.classList.add('selected');
+                                    }
+                                </script>
 
                             </form>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-primary" id="saveButton">确认</button>
+                        <div class="modal-footer flex justify-end p-4 border-t border-gray-200">
+                            <button type="button" class="btn btn-secondary text-gray-600 hover:text-gray-800 mr-2" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary bg-blue-600 text-white hover:bg-blue-700" id="saveButton">确认</button>
                         </div>
                     </div>
                 </div>
@@ -105,9 +186,10 @@
             <!-- /.modal -->
         </div>
     </div>
+
     <!-- /.content-wrapper -->
     <!-- 引入页脚footer-fragment -->
-    <div th:replace="admin/footer::footer-fragment"></div>
+<!--    <div th:replace="admin/footer::footer-fragment"></div>-->
 </div>
 <!-- jQuery -->
 <script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>

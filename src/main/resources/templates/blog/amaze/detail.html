@@ -1,41 +1,27 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
-<head>
-    <meta charset="utf-8">
-    <title th:text="|${configurations.get('websiteName')} - ${pageName}|">主页</title>
-    <meta name="description" th:content="${configurations.get('websiteDescription')}">
-    <link rel="shortcut icon" th:href="@{${configurations.get('websiteIcon')}}"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="Window-target" content="_top"/>
-    <link rel="stylesheet" th:href="@{/blog/amaze/css/base.css}">
-    <!-- TailwindCSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        .hljs {
-            background: none;
-        }
-        pre code {
-            white-space: pre;
-        }
-
-        blockquote {
-            border-left: 4px solid #42b983;
-            padding: 10px 0px 10px 15px;
-            color: #777;
-            background-color: rgba(66, 185, 131, .1);
-            max-width: 890px;
-        }
-    </style>
-
-</head>
-
+<head th:replace="blog/amaze/header::head-fragment"></head>
 <body class="bg-gray-100 text-gray-900">
+<style>
+    .hljs {
+        background: none;
+    }
+    pre code {
+        white-space: pre;
+    }
 
+    blockquote {
+        border-left: 4px solid #42b983;
+        padding: 10px 0px 10px 15px;
+        color: #777;
+        background-color: rgba(66, 185, 131, .1);
+        max-width: 890px;
+    }
+</style>
 <div th:replace="blog/amaze/header::nav-fragment"></div>
 
 <header th:fragment="header-fragment" class="intro-header bg-cover bg-center py-16"
-        th:style="'background-image:url(' + @{/blog/amaze/images/header.jpg} + ');'">
+        th:style="'background-image:url(' + ${blogDTO0.blogCoverImage} + ');'">
     <div class="container mx-auto text-center">
         <h1 class="text-4xl font-bold text-white" th:text="${blogDTO0.blogTitle}"></h1>
         <p class="mt-4 text-lg text-gray-300">
@@ -66,6 +52,9 @@
         </div>
     </article>
     <style>
+        .max-w-screen-md {
+            max-width: 850px;
+        }
         @media only screen and (min-width: 750px) {
             pre {
                 max-width: 100%;
@@ -144,7 +133,7 @@
                 <th:block th:each="comment, iterStat : ${commentPageResult.list}">
                     <article class="bg-gray-100 p-4 rounded-lg shadow-md">
                         <header class="flex items-center space-x-4">
-                            <img th:src="@{/blog/default/img/avatar.png}" alt="Avatar" class="w-12 h-12 rounded-full">
+                            <img th:src="@{/admin/dist/img/momo.jpg}" alt="Avatar" class="w-12 h-12 rounded-full">
                             <div>
                                 <h3 class="text-lg font-semibold text-gray-900" th:text="${comment.commentator}"></h3>
                                 <span class="text-sm text-gray-600"
@@ -159,7 +148,7 @@
                             <header class="flex items-center space-x-4">
                                 <img th:src="@{${configurations.get('yourAvatar')}}" alt="Avatar" class="w-10 h-10 rounded-full">
                                 <div>
-                                    <h3 class="text-lg font-semibold text-gray-900" th:text="${configurations.get('yourName')}">十三</h3>
+                                    <h3 class="text-lg font-semibold text-gray-900" th:text="${configurations.get('yourName')}">薛定谔的喵</h3>
                                     <span class="text-sm text-gray-600"
                                           th:text="'回复时间：' + ${#dates.format(comment.replyCreateTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
                                 </div>

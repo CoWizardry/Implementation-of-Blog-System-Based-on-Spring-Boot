@@ -104,8 +104,16 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public Boolean deleteBatch(Integer[] ids) {
-        return blogMapper.deleteBatch(ids) > 0;
+    public int deleteBatch(Integer[] ids) {
+        if (blogMapper.deleteBatch(ids) > 0) {
+            if (blogTagRelationMapper.deleteByBlogIds(ids) > 0) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } else {
+            return -1;
+        }
     }
 
     @Override
@@ -230,6 +238,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public PageResult getBlogsPageByTag(String tagName, int page) {
+        System.out.println(tagName);
         if (PatternUtil.validKeyword(tagName)) {
             BlogTag tag = tagMapper.selectByTagName(tagName);
             if (tag != null && page > 0) {

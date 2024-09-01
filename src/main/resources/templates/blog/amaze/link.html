@@ -5,7 +5,13 @@
 
 <body id="blog" class="bg-gray-100 text-gray-800 antialiased leading-relaxed">
 <div th:replace="blog/amaze/header::nav-fragment"></div>
-<div th:replace="blog/amaze/header::header-fragment"></div>
+<header th:fragment="header-fragment" class="intro-header bg-cover bg-center py-16"
+        th:style="'background-image:url(' + @{/admin/dist/img/rand/5.jpg} + ');'">
+    <div class="container mx-auto text-center">
+        <h1 class="text-4xl font-bold text-white text-5xl font-bold text-white mt-9" th:text="友链"></h1>
+    </div>
+    </div>
+</header>
 
 <div class="max-w-7xl mx-auto p-6 lg:flex lg:justify-center">
     <div class="lg:w-2/3 w-full bg-white shadow-md rounded-lg p-6 space-y-8">
@@ -60,23 +66,6 @@
                     </ul>
                 </section>
             </th:block>
-
-            <!-- 链接须知 Section -->
-            <section>
-                <h2 class="text-2xl font-bold mb-4">链接须知</h2>
-                <p class="mb-4">欢迎互换友链 ^_^ 不过请确定贵站可以正常运营.</p>
-                <p class="mb-4">
-                    我的邮箱是
-                    <span th:text="${configurations.get('yourEmail')}"></span>,
-                    格式要求如下:
-                </p>
-                <ul class="list-disc list-inside mb-4">
-                    <li>网站名称：13blog</li>
-                    <li>网站链接：http://13blog.site</li>
-                    <li>网站描述：十三的个人博客</li>
-                </ul>
-                <p>请保证自己的链接长期有效,不然可能会被清理.</p>
-            </section>
         </main>
     </div>
 </div>

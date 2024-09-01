@@ -9,7 +9,13 @@
     <meta http-equiv="Window-target" content="_top"/>
     <link rel="stylesheet" th:href="@{/blog/amaze/css/base.css}">
     <!-- TailwindCSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="/admin/dist/css/tailwind.min.css" rel="stylesheet">
+    <style>
+        ::selection {
+          background-color: #3367D1; /* 类似于 Tailwind 的颜色，但你需要自己指定 */
+          color: #FFFFFF; /* 同样，自定义颜色 */
+        }
+    </style>
 </head>
 <body class="font-sans antialiased bg-gray-100 text-gray-900">
 <nav th:fragment="nav-fragment" class="bg-white shadow-lg fixed w-full z-50 h-14">
@@ -72,7 +78,7 @@
                     <li><a th:href="@{/index}" class="text-gray-600 hover:text-gray-800">主页</a></li>
                     <li><a th:href="@{/link}" class="text-gray-600 hover:text-gray-800">友链</a></li>
                     <li><a th:href="@{/about}" class="text-gray-600 hover:text-gray-800">关于</a></li>
-                    <li><a href="https://github.com/ZHENFENG13" class="text-gray-600 hover:text-gray-800">GitHub</a></li>
+                    <li><a href="https://github.com/CoWizardry" class="text-gray-600 hover:text-gray-800">GitHub</a></li>
                 </ul>
             </div>
         </div>
@@ -97,7 +103,7 @@
                 </a>
             </li>
             <li>
-                <a href="https://github.com/ZHENFENG13" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded p-2 transition duration-150 ease-in-out">
+                <a href="https://github.com/CoWizardry" class="block text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded p-2 transition duration-150 ease-in-out">
                     GitHub
                 </a>
             </li>
@@ -125,13 +131,94 @@
 </nav>
 
 <header th:fragment="header-fragment" class="relative flex items-center justify-center h-64 bg-cover bg-center"
-        th:style="'background-image:url(' + @{/blog/amaze/images/header.jpg} + ');'">
-    <div class="absolute inset-0 bg-black opacity-50"></div>
+        th:style="'background-image:url(' + @{/admin/dist/img/rand/15.jpg} + ');'">
+    <div class="absolute inset-0"></div> <!-- opacity-50 -->
     <div class="container relative z-10 text-center">
-        <h1 class="text-4xl font-bold text-white">
-            我不怕千万人阻挡，只怕自己投降
-        </h1>
+        <h1 id="typing-text" class="text-4xl font-bold text-white"></h1>
     </div>
+
+    <script>
+        const apiUrls = [
+            "https://api.oick.cn/api/yiyan",
+            "https://v1.jinrishici.com/all.json"
+        ];
+        let currentApiIndex = 0;
+        let charIndex = 0;
+        const typingSpeed = 100; // 打字速度
+        const delayBetweenTexts = 2000; // 展示结束后的延迟
+        const deletingSpeed = 50; // 删除速度
+        const retryDelay = 3000; // 重试延迟
+
+        function fetchTextFromAPI() {
+            fetch(apiUrls[currentApiIndex])
+                .then(response => {
+                    if (currentApiIndex === 1) {
+                        return response.json(); // 解析JSON格式的数据
+                    } else {
+                        return response.text(); // 解析纯文本
+                    }
+                })
+                .then(data => {
+                    currentApiIndex = (currentApiIndex + 1) % apiUrls.length; // 切换到下一个API
+                    let text;
+                    if (currentApiIndex === 1) {
+                        text = data || "获取内容失败"; // 确保纯文本数据有效
+                    } else {
+                        text = data.content || "获取内容失败"; // 使用`content`字段，若为空则显示错误信息
+                    }
+                    if (text === "获取内容失败") {
+                        setTimeout(fetchTextFromAPI, retryDelay); // 重试获取数据
+                    } else {
+                        if (currentApiIndex === 0) {
+                            text=text+"—— "+data.author;
+                        }
+                        startTyping(text);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching text:", error);
+                    setTimeout(fetchTextFromAPI, retryDelay); // 捕获错误后重试
+                });
+        }
+
+        function startTyping(text) {
+            if (charIndex < text.length) {
+                document.getElementById("typing-text").innerHTML += text.charAt(charIndex);
+                charIndex++;
+                setTimeout(() => startTyping(text), typingSpeed);
+            } else {
+                setTimeout(() => startDeleting(text), delayBetweenTexts);
+            }
+        }
+
+        function startDeleting(text) {
+            if (charIndex > 0) {
+                document.getElementById("typing-text").innerHTML = text.substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(() => startDeleting(text), deletingSpeed);
+            } else {
+                fetchTextFromAPI(); // 获取下一个文本
+            }
+        }
+
+        window.onload = fetchTextFromAPI; // 页面加载完成后开始获取文本
+    </script>
+
+    <style>
+        #typing-text {
+          display: inline-block;
+          white-space: pre-wrap; /* 保证自动换行 */
+          word-wrap: break-word; /* 长单词或链接换行 */
+          border-right: .15em solid #fff; /* 光标效果 */
+          animation: blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes blink-caret {
+          from, to { border-color: transparent }
+          50% { border-color: white }
+        }
+    </style>
+
 </header>
 </body>
 </html>

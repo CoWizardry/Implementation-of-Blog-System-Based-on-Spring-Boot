@@ -11,18 +11,19 @@
     <!-- 引入工具栏sidebar-fragment -->
     <div th:replace="admin/sidebar::sidebar-fragment(${path})"></div>
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
+    <div class="content-wrapper bg-gray-100 min-h-screen mt-14">
+        <!-- Content Header (图标header) -->
         <div class="content-header">
-            <div class="container-fluid">
-            </div><!-- /.container-fluid -->
+            <div class="container mx-auto">
+                <!-- 这里可以添加标题或面包屑导航 -->
+            </div><!-- /.container -->
         </div>
         <!-- Main content -->
         <div class="content">
-            <div class="container-fluid">
-                <div class="card card-primary card-outline">
-                    <div class="card-header">
-                        <h3 class="card-title">发布文章</h3>
+            <div class="container mx-auto">
+                <div class="card border border-gray-300 shadow-lg rounded-lg">
+                    <div class="card-header bg-blue-600 p-4 rounded-t-lg">
+                        <h3 class="card-title text-lg font-semibold">发布文章</h3>
                     </div>
                     <div class="card-body">
                         <!-- 几个基础的输入框，名称、分类等输入框 -->
@@ -63,14 +64,13 @@
                                 <textarea style="display:none;"
                                           th:utext="${blog!=null and blog.blogContent !=null}?${blog.blogContent}: ''"></textarea>
                             </div>
-                            <div class="form-group">
-                                <!-- 按钮 -->
-                                &nbsp;<button class="btn btn-info float-right" style="margin-left: 5px;"
-                                              id="confirmButton">保存文章
-                            </button>&nbsp;
-                                &nbsp;<button class="btn btn-secondary float-right" style="margin-left: 5px;"
-                                              id="cancelButton">返回文章列表
-                            </button>&nbsp;
+                            <div class="flex justify-end space-x-4">
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+                                        id="confirmButton">保存文章
+                                </button>
+                                <button class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition"
+                                        id="cancelButton">返回文章列表
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -78,65 +78,101 @@
                 </div>
             </div><!-- /.container-fluid -->
         </div>
-        <div class="content">
+        <div class="content pt-4">
             <!-- 模态框（Modal） -->
             <div class="modal fade" id="articleModal" tabindex="-1" role="dialog" aria-labelledby="articleModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                            <h6 class="modal-title" id="articleModalLabel">信息完善</h6>
+                        <div class="modal-header flex items-center justify-between p-4 border-b border-gray-300">
+                            <h6 class="modal-title text-lg font-medium text-gray-900" id="articleModalLabel">信息完善</h6>
+                            <button type="button" class="close text-gray-500 hover:text-gray-700 focus:outline-none" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                        <div class="modal-body">
+
+                        <div class="modal-body p-4">
                             <form onsubmit="return false;">
+                                <!-- 封面图片展示 -->
                                 <div class="form-group">
-                                    <div class="col-sm-4">
+                                    <div class="flex items-center">
                                         <th:block th:if="${null == blog}">
                                             <img id="blogCoverImage" src="/admin/dist/img/img-upload.png"
-                                                 style="height: 64px;width: 64px;">
+                                                 class="h-16 w-16 object-cover rounded-lg">
                                         </th:block>
                                         <th:block th:unless="${null == blog}">
                                             <img id="blogCoverImage" th:src="${blog.blogCoverImage}"
-                                                 style="width:160px ;height: 120px;display:block;">
+                                                 class="w-40 h-30 object-cover rounded-lg">
                                         </th:block>
                                     </div>
                                 </div>
+
                                 <br>
+
+                                <!-- 上传封面和随机封面按钮 -->
                                 <div class="form-group">
-                                    <div class="col-sm-4">
-                                        <button class="btn btn-info" style="margin-bottom: 5px;" id="uploadCoverImage">
+                                    <div class="flex space-x-2">
+                                        <button class="btn bg-blue-500 text-white hover:bg-blue-600 focus:outline-none px-4 py-2 rounded-md"
+                                                id="uploadCoverImage">
                                             <i class="fa fa-picture-o"></i>&nbsp;上传封面
                                         </button>
-                                        <button class="btn btn-secondary" style="margin-bottom: 5px;"
-                                                id="randomCoverImage"><i
-                                                class="fa fa-random"></i>&nbsp;随机封面
+                                        <button class="btn bg-gray-500 text-white hover:bg-gray-600 focus:outline-none px-4 py-2 rounded-md"
+                                                id="randomCoverImage">
+                                            <i class="fa fa-random"></i>&nbsp;随机封面
                                         </button>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label">文章状态:&nbsp;</label>
-                                    <input name="blogStatus" type="radio" id="publish"
-                                           checked=true
-                                           th:checked="${null==blog||(null !=blog and null !=blog.blogStatus and blog.blogStatus==1)} ?true:false"
-                                           value="1"/>&nbsp;发布&nbsp;
-                                    <input name="blogStatus" type="radio" id="draft" value="0"
-                                           th:checked="${null !=blog and null !=blog.blogStatus and blog.blogStatus==0} ?true:false"/>&nbsp;草稿&nbsp;
+
+                                <!-- 文章状态选择 -->
+                                <div class="form-group mt-4">
+                                    <label class="control-label block text-gray-700 font-medium mb-2">文章状态:&nbsp;</label>
+                                    <div class="flex items-center space-x-4">
+                                        <label class="inline-flex items-center">
+                                            <input name="blogStatus" type="radio" id="publish" checked="true"
+                                                   class="form-radio text-blue-600"
+                                                   th:checked="${null==blog||(null !=blog and null !=blog.blogStatus and blog.blogStatus==1)} ?true:false"
+                                                   value="1"/>
+                                            <span class="ml-2">发布</span>
+                                        </label>
+                                        <label class="inline-flex items-center">
+                                            <input name="blogStatus" type="radio" id="draft" class="form-radio text-blue-600"
+                                                   th:checked="${null !=blog and null !=blog.blogStatus and blog.blogStatus==0} ?true:false"
+                                                   value="0"/>
+                                            <span class="ml-2">草稿</span>
+                                        </label>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label">是否允许评论:&nbsp;</label>
-                                    <input name="enableComment" type="radio" id="enableCommentTrue" checked=true
-                                           th:checked="${null==blog||(null !=blog and null !=blog.enableComment and blog.enableComment==0)} ?true:false"
-                                           value="0"/>&nbsp;是&nbsp;
-                                    <input name="enableComment" type="radio" id="enableCommentFalse" value="1"
-                                           th:checked="${null !=blog and null !=blog.enableComment and blog.enableComment==1} ?true:false"/>&nbsp;否&nbsp;
+
+                                <!-- 是否允许评论 -->
+                                <div class="form-group mt-4">
+                                    <label class="control-label block text-gray-700 font-medium mb-2">是否允许评论:&nbsp;</label>
+                                    <div class="flex items-center space-x-4">
+                                        <label class="inline-flex items-center">
+                                            <input name="enableComment" type="radio" id="enableCommentTrue" checked="true"
+                                                   class="form-radio text-blue-600"
+                                                   th:checked="${null==blog||(null !=blog and null !=blog.enableComment and blog.enableComment==0)} ?true:false"
+                                                   value="0"/>
+                                            <span class="ml-2">是</span>
+                                        </label>
+                                        <label class="inline-flex items-center">
+                                            <input name="enableComment" type="radio" id="enableCommentFalse" class="form-radio text-blue-600"
+                                                   th:checked="${null !=blog and null !=blog.enableComment and blog.enableComment==1} ?true:false"
+                                                   value="1"/>
+                                            <span class="ml-2">否</span>
+                                        </label>
+                                    </div>
                                 </div>
                             </form>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-primary" id="saveButton">确认</button>
+
+                        <div class="modal-footer flex justify-end p-4 border-t border-gray-300">
+                            <button type="button" class="btn bg-gray-200 text-gray-800 hover:bg-gray-300 focus:outline-none px-4 py-2 rounded" data-dismiss="modal">
+                                取消
+                            </button>
+                            <button type="button" class="btn bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 px-4 py-2 ml-3 rounded" id="saveButton">
+                                确认
+                            </button>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -145,7 +181,7 @@
     </div>
     <!-- /.content-wrapper -->
     <!-- 引入页脚footer-fragment -->
-    <div th:replace="admin/footer::footer-fragment"></div>
+<!--    <div th:replace="admin/footer::footer-fragment"></div>-->
 </div>
 <!-- jQuery -->
 <script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>

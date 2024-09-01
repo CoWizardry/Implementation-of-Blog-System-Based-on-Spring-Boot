@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<aside th:fragment="sidebar-fragment(path)" class="main-sidebar sidebar-dark-primary elevation-4">
+<aside th:fragment="sidebar-fragment(path)" class="main-sidebar bg-gray-900 elevation-4">
     <!-- Brand Logo -->
     <a th:href="@{/admin/index}" class="brand-link">
         <img th:src="@{/admin/dist/img/logo.png}" alt="ssm-cluster Logo" class="brand-image img-circle elevation-3"
              style="opacity: .8">
-        <span class="brand-text font-weight-light">my blog</span>
+        <span class="brand-text font-weight-light">Polaris</span>
+        <style>
+            .font-weight-light {
+                font-weight: 700 !important;
+            }
+        </style>
     </a>
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img th:src="@{/admin/dist/img/avatar5.png}" class="img-circle elevation-2" alt="User Image">
+                <img th:src="@{/admin/dist/img/薛定谔的喵.jpg}" class="img-circle elevation-2" alt="User Image" style="max-width: none;">
             </div>
             <div class="info">
                 <a href="#" class="d-block" th:text="${session.loginUser}"></a>
@@ -20,11 +25,11 @@
         </div>
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+            <ul class="nav nav-pills nav-sidebar flex-column text-gray-400" data-widget="treeview" role="menu"
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
-                <li class="nav-header">Dashboard</li>
+                <li class="nav-header uppercase">Dashboard</li>
                 <li class="nav-item">
                     <a th:href="@{/admin/index}" th:class="${path}=='index'?'nav-link active':'nav-link'">
                         <i class="nav-icon fa fa-dashboard"></i>

@@ -66,6 +66,13 @@
         delete from tb_blog_tag_relation
         where blog_id = #{blogId,jdbcType=BIGINT}
     </delete>
+    <delete id="deleteByBlogIds">
+        delete from tb_blog_tag_relation
+        where blog_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
     <insert id="insert" parameterType="com.site.blog.my.core.Entity.BlogTagRelation">
     insert into tb_blog_tag_relation (relation_id, blog_id, tag_id,
       create_time)
