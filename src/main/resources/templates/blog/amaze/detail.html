@@ -39,11 +39,16 @@
 </header>
 
 <main class="container mx-auto max-w-screen-md py-8 px-4">
-    <!-- 文章主体部分 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/atom-one-dark.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+
+    <script>
+        hljs.highlightAll();
+    </script>
     <article class="bg-white p-8 rounded-lg shadow-lg border-b-4 border-blue-500">
         <div id="post-content" class="prose max-w-none">
-            <!-- 使用Thymeleaf动态内容 -->
-            <th:block th:utext="${blogDTO0.blogContent}"/>
+            <!-- 动态内容 -->
+<!--            <th:block th:utext="${blogDTO0.blogContent}"/>-->
 
             <!-- 版权声明 -->
             <aside class="mt-8 text-sm text-gray-500 border-t-2 pt-4">
@@ -51,78 +56,124 @@
             </aside>
         </div>
     </article>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. 获取当前页面路径并提取 blogId
+            const pathArray = window.location.pathname.split('/');
+            const blogId = pathArray[pathArray.length - 1];
+
+            // 2. 使用 fetch 请求从 /content/{blogId} 加载 Markdown 内容
+            fetch(`/content/${blogId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.text();
+                })
+                .then(markdownContent => {
+                    // 3. 创建 Markdown-it 实例
+                    const md = new markdownit();
+
+                    // 4. 渲染 Markdown 为 HTML
+                    const renderedHtml = md.render(markdownContent);
+
+                    // 5. 将渲染后的 HTML 插入到页面中
+                    document.getElementById('post-content').innerHTML = renderedHtml;
+
+                    hljs.highlightAll();
+
+                    // 获取 <article> 内的所有相关标签并添加样式
+                    const article = document.querySelector("#post-content");
+
+                    // 为 h1 标签添加样式
+                    article.querySelectorAll("h1").forEach(function(h1) {
+                        h1.classList.add("text-4xl", "font-bold", "text-black", "mb-6");
+                    });
+
+                    // 为 h2 标签添加样式
+                    article.querySelectorAll("h2").forEach(function(h2) {
+                        h2.classList.add("text-3xl", "font-semibold", "text-black", "mt-8", "mb-4");
+                    });
+
+                    // 为 h3 标签添加样式
+                    article.querySelectorAll("h3").forEach(function(h3) {
+                        h3.classList.add("text-2xl", "font-semibold", "text-black", "mt-6", "mb-3");
+                    });
+
+                    // 为 h4 标签添加样式
+                    article.querySelectorAll("h4").forEach(function(h4) {
+                        h4.classList.add("text-xl", "font-semibold", "text-black", "mt-5", "mb-2");
+                    });
+
+                    // 为 h5 标签添加样式
+                    article.querySelectorAll("h5").forEach(function(h5) {
+                        h5.classList.add("text-lg", "font-semibold", "text-black", "mt-4", "mb-1");
+                    });
+
+                    // 为 h6 标签添加样式
+                    article.querySelectorAll("h6").forEach(function(h6) {
+                        h6.classList.add("text-base", "font-semibold", "text-black", "mt-3", "mb-1");
+                    });
+
+                    // 为 p 标签添加样式
+                    article.querySelectorAll("p").forEach(function(p) {
+                        p.classList.add("text-lg", "text-gray-800", "leading-relaxed");
+                    });
+
+                    // 为 blockquote 标签添加样式
+                    article.querySelectorAll("blockquote").forEach(function(blockquote) {
+                        blockquote.classList.add("border-l-4", "border-blue-400", "pl-4", "text-gray-700", "italic", "my-6");
+                    });
+
+                    // 为 hr 标签添加样式
+                    article.querySelectorAll("hr").forEach(function(hr) {
+                        hr.classList.add("my-8", "border-t-2", "border-gray-300");
+                    });
+
+                    // 为 a 标签添加样式
+                    article.querySelectorAll("a").forEach(function(a) {
+                        a.classList.add("text-blue-600", "hover:text-blue-800", "underline");
+                    });
+                                        // 为 table 标签添加样式
+                    article.querySelectorAll("table").forEach(function(table) {
+                        table.classList.add("min-w-full", "divide-y", "divide-gray-200");
+                    });
+
+                    // 为表格的 tr、th、td 标签添加样式
+                    article.querySelectorAll("thead th").forEach(function(th) {
+                        th.classList.add("px-6", "py-3", "bg-gray-50", "text-left", "text-xs", "font-medium", "text-gray-500", "uppercase", "tracking-wider");
+                    });
+
+                    article.querySelectorAll("tbody tr").forEach(function(tr) {
+                        tr.classList.add("border-b", "border-gray-200");
+                    });
+
+                    article.querySelectorAll("td").forEach(function(td) {
+                        td.classList.add("px-6", "py-4", "text-sm", "text-gray-900");
+                    });
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                    document.getElementById('post-content').innerHTML = '<p>加载内容失败，请稍后重试。</p>';
+                });
+        });
+    </script>
+    <style>
+        @media only screen and (min-width: 750px) {
+            pre {
+            max-width: 100%;
+            }
+        }
+        pre {
+            padding: 0;
+        }
+    </style>
     <style>
         .max-w-screen-md {
             max-width: 850px;
         }
-        @media only screen and (min-width: 750px) {
-            pre {
-                max-width: 100%;
-            }
-        }
     </style>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // 获取 <article> 内的所有相关标签
-            const article = document.querySelector("#post-content");
-
-            // 为 h1 标签添加样式
-            article.querySelectorAll("h1").forEach(function(h1) {
-                h1.classList.add("text-4xl", "font-bold", "text-gray-900", "mb-6");
-            });
-
-            // 为 h2 标签添加样式
-            article.querySelectorAll("h2").forEach(function(h2) {
-                h2.classList.add("text-3xl", "font-semibold", "text-gray-800", "mt-8", "mb-4");
-            });
-
-            // 为 h3 标签添加样式
-            article.querySelectorAll("h3").forEach(function(h3) {
-                h3.classList.add("text-2xl", "font-medium", "text-gray-700", "mt-6", "mb-3");
-            });
-            // 为 h4 标签添加样式
-            article.querySelectorAll("h4").forEach(function(h4) {
-                h4.classList.add("text-xl", "font-semibold", "text-gray-600", "mt-5", "mb-2");
-            });
-
-            // 为 h5 标签添加样式
-            article.querySelectorAll("h5").forEach(function(h5) {
-                h5.classList.add("text-lg", "font-medium", "text-gray-500", "mt-4", "mb-1");
-            });
-
-            // 为 h6 标签添加样式
-            article.querySelectorAll("h6").forEach(function(h6) {
-                h6.classList.add("text-base", "font-medium", "text-gray-400", "mt-3", "mb-1");
-            });
-
-            // 为 p 标签添加样式
-            article.querySelectorAll("p").forEach(function(p) {
-                p.classList.add("text-lg", "text-gray-800", "leading-relaxed");
-            });
-
-            // 为 blockquote 标签添加样式
-            article.querySelectorAll("blockquote").forEach(function(blockquote) {
-                blockquote.classList.add("border-l-4", "border-blue-400", "pl-4", "text-gray-700", "italic", "my-6");
-            });
-
-            // 为 hr 标签添加样式
-            article.querySelectorAll("hr").forEach(function(hr) {
-                hr.classList.add("my-8", "border-t-2", "border-gray-300");
-            });
-
-            // 为 a 标签添加样式
-            article.querySelectorAll("a").forEach(function(a) {
-                a.classList.add("text-blue-600", "hover:text-blue-800", "underline");
-            });
-            // 为 code 和 pre 标签添加样式
-            article.querySelectorAll("pre").forEach(function(pre) {
-                pre.classList.add("bg-gray-100", "p-4", "rounded-lg", "overflow-x-auto");
-            });
-            article.querySelectorAll("code").forEach(function(code) {
-                code.classList.add("font-mono", "text-sm", "bg-gray-200", "p-1", "rounded");
-            });
-        });
-    </script>
 
 
     <!-- 评论区 -->
@@ -189,7 +240,7 @@
 </body>
 
 <script th:src="@{/blog/default/js/jquery.min.js}"></script>
-<script th:src="@{/blog/plugins/highlight/highlight.pack.js}"></script>
+<!--<script th:src="@{/blog/plugins/highlight/highlight.pack.js}"></script>-->
 <script th:src="@{/blog/plugins/comment/valid.js}"></script>
 <script th:src="@{/blog/plugins/comment/comment.js}"></script>
 <script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>

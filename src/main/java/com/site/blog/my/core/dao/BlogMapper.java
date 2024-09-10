@@ -15,6 +15,8 @@ public interface BlogMapper {
 
     Blog selectByPrimaryKey(Long blogId);
 
+    String  selectcontentByPrimaryKey(Long blogId);
+
     int updateByPrimaryKeySelective(Blog record);
 
     int updateByPrimaryKeyWithBLOBs(Blog record);

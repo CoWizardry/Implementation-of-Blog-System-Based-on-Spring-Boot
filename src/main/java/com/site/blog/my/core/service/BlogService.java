@@ -57,6 +57,8 @@ public interface BlogService {
      */
     BlogDTO0 getBlogDetail(Long blogId);
 
+    String getBlogContent(Long blogId);
+
     /**
      * 根据标签获取文章列表
      *

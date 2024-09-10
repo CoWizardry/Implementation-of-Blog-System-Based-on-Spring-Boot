@@ -1,6 +1,7 @@
 package com.site.blog.my.core.controller.blog;
 
 import cn.hutool.captcha.ShearCaptcha;
+import com.site.blog.my.core.Entity.Blog;
 import com.site.blog.my.core.controller.DTO.BlogDTO0;
 import com.site.blog.my.core.Entity.BlogComment;
 import com.site.blog.my.core.Entity.BlogLink;
@@ -96,6 +97,13 @@ public class MyBlogController {
         request.setAttribute("pageName", "详情");
         request.setAttribute("configurations", configService.getAllConfigs());
         return "blog/" + theme + "/detail";
+    }
+
+    @GetMapping("/content/{blogId}")
+    @ResponseBody
+    public String content(HttpServletRequest request,
+                          @PathVariable("blogId") Long blogId) {
+        return blogService.getBlogContent(blogId);
     }
 
     /**

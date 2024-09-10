@@ -229,7 +229,7 @@ public class BlogServiceImpl implements BlogService {
     public BlogDTO0 getBlogDetail(Long id) {
         Blog blog = blogMapper.selectByPrimaryKey(id);
         //不为空且状态为已发布
-        BlogDTO0 blogDTO0 = getBlogDetailVO(blog);
+        BlogDTO0 blogDTO0 = getBlogDTO(blog);
         if (blogDTO0 != null) {
             return blogDTO0;
         }
@@ -237,8 +237,12 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    public String getBlogContent(Long blogId) {
+        return blogMapper.selectcontentByPrimaryKey(blogId);
+    }
+
+    @Override
     public PageResult getBlogsPageByTag(String tagName, int page) {
-        System.out.println(tagName);
         if (PatternUtil.validKeyword(tagName)) {
             BlogTag tag = tagMapper.selectByTagName(tagName);
             if (tag != null && page > 0) {
@@ -304,7 +308,7 @@ public class BlogServiceImpl implements BlogService {
     public BlogDTO0 getBlogDetailBySubUrl(String subUrl) {
         Blog blog = blogMapper.selectBySubUrl(subUrl);
         //不为空且状态为已发布
-        BlogDTO0 blogDTO0 = getBlogDetailVO(blog);
+        BlogDTO0 blogDTO0 = getBlogDTO(blog);
         if (blogDTO0 != null) {
             return blogDTO0;
         }
@@ -317,14 +321,14 @@ public class BlogServiceImpl implements BlogService {
      * @param blog
      * @return
      */
-    private BlogDTO0 getBlogDetailVO(Blog blog) {
+    private BlogDTO0 getBlogDTO(Blog blog) {
         if (blog != null && blog.getBlogStatus() == 1) {
             //增加浏览量
             blog.setBlogViews(blog.getBlogViews() + 1);
             blogMapper.updateByPrimaryKey(blog);
             BlogDTO0 blogDTO0 = new BlogDTO0();
             BeanUtils.copyProperties(blog, blogDTO0);
-            blogDTO0.setBlogContent(MarkDownUtil.mdToHtml(blogDTO0.getBlogContent()));
+//            blogDTO0.setBlogContent(MarkDownUtil.mdToHtml(blogDTO0.getBlogContent()));
             BlogCategory blogCategory = categoryMapper.selectByPrimaryKey(blog.getBlogCategoryId());
             if (blogCategory == null) {
                 blogCategory = new BlogCategory();
@@ -369,8 +373,8 @@ public class BlogServiceImpl implements BlogService {
                     blogDTO.setBlogCategoryId(0);
                     blogDTO.setBlogCategoryName("默认分类");
                     blogDTO.setBlogCategoryIcon("/admin/dist/img/category/00.png");
-                    blogDTO.setBlogSnippet(blog.getBlogContent().length() > 200 ? blog.getBlogContent().substring(0, 200) : blog.getBlogContent()); //文章片段
                 }
+                blogDTO.setBlogSnippet(blog.getBlogContent().length() > 200 ? blog.getBlogContent().substring(0, 200) : blog.getBlogContent()); //文章片段
                 blogDTOS.add(blogDTO);
             }
         }
